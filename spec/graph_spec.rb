@@ -1,5 +1,5 @@
 require 'rspec'
-require_relative './graph'
+require_relative '../graph'
 
 RSpec.describe Graph do
   let(:graph) { Graph.new({ 1 => { 2 => 1, 3 => 4 }, 2 => { 3 => 2 }, 3 => { 4 => 7 }, 4 => { 1 => 3 } }) }
