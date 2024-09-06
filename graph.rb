@@ -1,3 +1,4 @@
+require 'algorithms'
 class Graph
 
   def initialize(graph = {})
@@ -24,24 +25,21 @@ class Graph
   def dijkstra(start)
     distances = Hash.new(Float::INFINITY)
     distances[start] = 0
-    visited = []
 
-    loop do
-      # Find the unvisited node with the smallest distance
-      current_node = nil
-      distances.each do |node, dist|
-        next if visited.include?(node)
-        current_node = node if current_node.nil? || dist < distances[current_node]
-      end
+    pq = Containers::PriorityQueue.new
+    pq.push(start, 0)
 
-      break if current_node.nil? # No more nodes to visit
+    while !pq.empty?
+      current_node = pq.pop
 
-      visited << current_node
-
-      # Update distances for its neighbors
       graph[current_node].each do |neighbor, weight|
         new_distance = distances[current_node] + weight
-        distances[neighbor] = new_distance if new_distance < distances[neighbor]
+
+        # If a shorter path is found, update and push to priority queue
+        if new_distance < distances[neighbor]
+          distances[neighbor] = new_distance
+          pq.push(neighbor, -new_distance)
+        end
       end
     end
 
